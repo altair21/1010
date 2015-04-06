@@ -1,0 +1,99 @@
+header{
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+header h1{
+    font-family: Arial;
+    font-size: 40px;
+    font-weight: bold;
+    margin: 0 auto;
+}
+
+header #newgamebtn{
+    display: block;
+    margin: 5px auto;
+
+    width: 100px;
+    padding: 5px 5px;
+    background-color: #8f7a66;
+
+    font-family: Arial;
+    color: white;
+
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+header #newgamebtn:hover{
+    background-color:#9f8b77;
+}
+
+header p{
+    font-family: Arial;
+    font-size: 15px;
+    margin: 10px auto;
+}
+
+#grid-container{
+    width: 422px;
+    height: 422px;
+    /*padding: 20px;*/
+
+    margin: 5px auto;
+    background-color: #ffffff;
+
+    border-radius: 10px;
+    position: relative;
+}
+
+.grid-cell{
+    width:40px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #e1e1e1;
+
+    position: absolute;
+}
+
+.block-cell{
+    border-radius: 4px;
+    position: absolute;
+}
+
+#drag-container{
+    width: 354px;
+    height: 106px;
+    padding: auto 10px;
+
+    margin: 5px auto;
+    background-color: #ffffff;
+
+    border-radius: 10px;
+    position: relative;
+}
+
+.drag-block{
+    width: 106px;
+    height: 106px;
+
+    background: rgba(244,219,187, 0);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#0F4DBBB, endColorstr=#0F4DBBB);
+
+    border-radius: 10px;
+    position: absolute;
+
+    z-index: 3;
+
+}
+
+.drag-cell{
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #ffffff;
+
+    position: absolute;
+}
