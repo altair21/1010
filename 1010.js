@@ -106,6 +106,10 @@ var Factory = {
 $(document).ready(function(){
     prepareForMobile();
     newgame();
+
+    //alert($(window).width());
+    //alert(window.screen.availWidth);
+    resizeTo(documentWidth, window.screen.availHeight);
 });
 
 function prepareForMobile(){
@@ -299,7 +303,6 @@ function drag(elementToDrag, id, event){    //拖拽动作
             if(alreadyFill == 3)    generateBlock();
 
             checkClear();
-            setTimeout(checkGameOver(),1000);
         } else{
             elementToDrag.style.width = dragFalse[id].width;
             elementToDrag.style.height = dragFalse[id].height;
@@ -371,7 +374,6 @@ document.addEventListener('touchend',function(event){
         if(alreadyFill == 3)    generateBlock();
 
         checkClear();
-        setTimeout(checkGameOver(),1000);
     } else{
         var dragBlock = $('#drag-block-'+touchId);
         dragBlock.css('width',dragFalse[touchId].width);
@@ -416,10 +418,10 @@ function dragCellBigger(elementToDrag, id){     //点击时放大方块
 }
 
 function dragSuccess(id){    //判断填充是否成功
+    var X = overlapPoint[id].x;
+    var Y = overlapPoint[id].y;
     for(var i = 0; i < 10; i++){
         for(var j = 0; j < 10; j++){
-            var X = overlapPoint[id].x;
-            var Y = overlapPoint[id].y;
             if(isOverlap($('#drag-cell-'+id+'-'+X+'-'+Y), $('#grid-cell-'+i+'-'+j))){
                 fillPoint.x = i;
                 fillPoint.y = j;
@@ -516,7 +518,10 @@ function checkClear(){  //检查是否可消除
             }
         }
     }
-    if(!canClear)   return ;
+    if(!canClear){
+        setTimeout("checkGameOver()",310);
+        return ;
+    }
     var addScore = 0;
     for(var i = 0; i < 10; i++){
         for(var j = 0; j < 10; j++){
@@ -529,17 +534,22 @@ function checkClear(){  //检查是否可消除
     }
     score += addScore;
     $('#score').text(score);
+
+    setTimeout("checkGameOver()",310);
+
 }
 
 function checkGameOver(){   //检查是否无路可走
     for(var i = 0; i < 3; i++){
         if(!canClick[i])    continue;
         if(canDrag(i)){
-            return ;
+            return false;
         }
     }
-    alert("哈哈哈！挂了吧！");
+    if(alreadyFill > 0)    alert("哈哈哈！挂了吧！");
+    else    alert("很遗憾你挂了，有时候运气也很重要");
     newgame();
+    return true;
 }
 
 function canDrag(id){   //检查第id个方块是否可以填充
@@ -552,7 +562,7 @@ function canDrag(id){   //检查第id个方块是否可以填充
                 for(var p = 0; p < 5; p++){
                     for(var q = 0; q < 5; q++){
                         if(dragBoard[id][p*5+q] == 1){
-                            if((i-X+p)>=10 || (i-X+p)<0 || (j-Y+p)>=10 || (j-Y+p)<0 || board[i-X+p][j-Y+q] != 0){
+                            if((i-X+p)>=10 || (i-X+p)<0 || (j-Y+q)>=10 || (j-Y+q)<0 || board[i-X+p][j-Y+q] == 1){
                                 flag = false;
                                 break;
                             }

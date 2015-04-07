@@ -1,7 +1,7 @@
 /**
  * Created by altair21 on 15/4/1.
  */
-documentWidth = window.screen.availWidth;
+documentWidth = Math.min(window.screen.availWidth, $(window).width());
 gridContainerWidth = 0.855 * documentWidth;
 cellSideLength = 0.08 * documentWidth;
 cellSpace = 0.005 * documentWidth;
