@@ -159,7 +159,7 @@ function init(){    //棋盘初始化
             gridCell.css('zIndex',"1");
             gridCell.css('background-color',"#e1e1e1");
 
-            $("#grid-container").append( '<div class="block-cell" id="block-cell-'+i+'-'+j+'"></div>' );
+            $('#grid-container').append( '<div class="block-cell" id="block-cell-'+i+'-'+j+'"></div>' );
             var theBlockCell = $('#block-cell-'+i+'-'+j);
             theBlockCell.css('line-height',cellSideLength);
             theBlockCell.css('top',getTop(i, j));
@@ -342,7 +342,7 @@ document.addEventListener('touchstart',function(event){
         touchY >= dragBlock.offset().top && touchY <= dragBlock.offset().top + dragBlock.height()){
             touching = true;
             touchId = i;
-            var elementToDrag = document.getElementById("drag-block-"+i);
+            var elementToDrag = $('#drag-block-'+i);
             dragCellBigger(elementToDrag, i);
 
             touchDeltaX = touchX - elementToDrag.offsetLeft;
@@ -356,7 +356,7 @@ document.addEventListener('touchmove',function(event){
     event.preventDefault();
     if(!touching)   return;
 
-    var elementToDrag = document.getElementById("drag-block-"+touchId);
+    var elementToDrag = $('#drag-block-'+touchId);
     elementToDrag.style.left = (event.touches[0].pageX - touchDeltaX) + "px";
     elementToDrag.style.top = (event.touches[0].pageY - touchDeltaY) + "px";
     elementToDrag.style.zIndex = "10";
