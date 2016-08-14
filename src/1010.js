@@ -414,7 +414,7 @@ function dragCellBigger(elementToDrag, id, eventX, eventY){     //点击时放�
     var newWidth = parseInt(elementToDrag.style.width);
     var offset = Math.abs(newLeft - elementLeft);
     var centerOffset = Math.abs(eventX - centerX);
-    if (eventY > centerX) {
+    if (eventX > centerX) {
         elementToDrag.style.left = parseInt(elementToDrag.style.left) + elementWidth / 2 + centerOffset - newWidth / 2 + "px";
     } else {
         elementToDrag.style.left = parseInt(elementToDrag.style.left) + elementWidth / 2 - centerOffset - newWidth / 2 + "px";
