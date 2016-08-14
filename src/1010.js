@@ -14,6 +14,10 @@ var touchDeltaX = 0;            //记录偏移量
 var touchDeltaY = 0;
 var touchId = 0;                //记录触摸div的id
 var touching = false;
+var lastEvent = {
+    x: "",
+    y: ""
+};
 var dragFalse = [               //记录拖拽方块的位置，拖拽失败时调用
     {
         left:0,
@@ -242,7 +246,7 @@ function drag(elementToDrag, id, event){    //拖拽动作
     dragFalse[id].top = elementToDrag.style.top;
     dragFalse[id].width = elementToDrag.style.width;
     dragFalse[id].height = elementToDrag.style.height;
-    dragCellBigger(elementToDrag, id);
+    dragCellBigger(elementToDrag, id, event.clientX, event.clientY);
     var startX = event.clientX;
     var startY = event.clientY;
     var origX = elementToDrag.offsetLeft;
@@ -342,8 +346,8 @@ document.addEventListener('touchstart',function(event){
         touchY >= dragBlock.offset().top && touchY <= dragBlock.offset().top + dragBlock.height()){
             touching = true;
             touchId = i;
-            var elementToDrag = $('#drag-block-'+i);
-            dragCellBigger(elementToDrag, i);
+            var elementToDrag = document.getElementById("drag-block-"+i);
+            dragCellBigger(elementToDrag, i, event.touches[0].pageX, event.touches[0].pageY);
 
             touchDeltaX = touchX - elementToDrag.offsetLeft;
             touchDeltaY = touchY - elementToDrag.offsetTop;
@@ -356,9 +360,14 @@ document.addEventListener('touchmove',function(event){
     event.preventDefault();
     if(!touching)   return;
 
-    var elementToDrag = $('#drag-block-'+touchId);
-    elementToDrag.style.left = (event.touches[0].pageX - touchDeltaX) + "px";
-    elementToDrag.style.top = (event.touches[0].pageY - touchDeltaY) + "px";
+    var elementToDrag = document.getElementById("drag-block-"+touchId);
+    var offsetX = event.touches[0].pageX - lastEvent.x;
+    var offsetY = event.touches[0].pageY - lastEvent.y;
+    lastEvent.x = event.touches[0].pageX;
+    lastEvent.y = event.touches[0].pageY;
+    elementToDrag.style.left = parseInt(elementToDrag.style.left) + offsetX + "px";
+    elementToDrag.style.top = parseInt(elementToDrag.style.top) + offsetY + "px";
+
     elementToDrag.style.zIndex = "10";
 });
 
@@ -395,15 +404,24 @@ document.addEventListener('touchend',function(event){
 
 });
 
-function dragCellBigger(elementToDrag, id){     //点击时放大方块
+function dragCellBigger(elementToDrag, id, eventX, eventY){     //点击时放大方块
+    var elementLeft = getElementLeft(elementToDrag);
+    var elementWidth = parseInt(elementToDrag.style.width);
+    var centerX = elementLeft + elementWidth / 2;
     elementToDrag.style.width = 5 * cellSideLength + 6 * cellSpace + "px";
     elementToDrag.style.height = 5 * cellSideLength + 6 * cellSpace + "px";
-    switch (id){
-        case 0:elementToDrag.style.left = -1.3 * dragCellSideLength + "px";break;
-        case 1:elementToDrag.style.left = 5 * dragCellSideLength + "px";break;
-        case 2:elementToDrag.style.left = 12 * dragCellSideLength + "px";break;
+    var newLeft = eventX - parseInt(elementToDrag.style.width) / 2 + "px";
+    var newWidth = parseInt(elementToDrag.style.width);
+    var offset = Math.abs(newLeft - elementLeft);
+    var centerOffset = Math.abs(eventX - centerX);
+    if (eventY > centerX) {
+        elementToDrag.style.left = parseInt(elementToDrag.style.left) + elementWidth / 2 + centerOffset - newWidth / 2 + "px";
+    } else {
+        elementToDrag.style.left = parseInt(elementToDrag.style.left) + elementWidth / 2 - centerOffset - newWidth / 2 + "px";
     }
-    elementToDrag.style.top = -1.8 * cellSideLength + "px";
+    elementToDrag.style.top = parseInt(elementToDrag.style.top) - newWidth / 2 + "px";
+    lastEvent.x = eventX;
+    lastEvent.y = eventY;
     elementToDrag.style.zIndex = "10";
     for(var i = 0; i < 5; i++){
         for(var j = 0; j < 5; j++){

@@ -9,6 +9,26 @@ dragContainerWidth = 0.94 * documentWidth;
 dragCellSideLength = 0.05 * documentWidth;
 dragCellSpace = 0.005 * documentWidth;
 
+function getElementLeft(element){
+    var actualLeft = element.offsetLeft;
+    var current = element.offsetParent;
+    while (current !== null){
+        actualLeft += current.offsetLeft;
+        current = current.offsetParent;
+    }
+    return actualLeft;
+}
+
+function getElementTop(element){
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+    while (current !== null){
+        actualTop += current.offsetTop;
+        current = current.offsetParent;
+    }
+    return actualTop;
+}
+
 function getTop(i, j){
     return cellSpace + i * (cellSpace + cellSideLength);
 }
