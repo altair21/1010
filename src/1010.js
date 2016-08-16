@@ -494,8 +494,8 @@ function fillGrid(id){  //方块填充
             }
         }
     }
+    animateNum(score, score + addScore);
     score += addScore;
-    $('#score').text(score);
 }
 
 function flushDragCell(id){     //填充后刷新拖拽方块的状态
@@ -550,8 +550,8 @@ function checkClear(){  //检查是否可消除
             }
         }
     }
+    animateNum(score, score + addScore);
     score += addScore;
-    $('#score').text(score);
 
     setTimeout("checkGameOver()",310);
 
@@ -593,4 +593,9 @@ function canDrag(id){   //检查第id个方块是否可以填充
         }
     }
     return false;
+}
+
+function animateNum(startVal, endVal) {
+    var numAnim = new CountUp("score", startVal, endVal, 0, 0.3);
+    numAnim.start();
 }
