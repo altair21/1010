@@ -113,11 +113,30 @@ $(document).ready(function(){
 
     //alert($(window).width());
     //alert(window.screen.availWidth);
-    resizeTo(documentWidth, window.screen.availHeight);
+    resizeTo(document.body.clientWidth, window.screen.availHeight);
 });
 
 function prepareForMobile(){
-    if(documentWidth * 0.91 >= 700){
+    var isMobile = {
+        Android: function () {
+            return navigator.userAgent.match(/Android/i) ? true : false;
+        },
+        BlackBerry: function () {
+            return navigator.userAgent.match(/BlackBerry/i) ? true : false;
+        },
+        iOS: function () {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i) ? true : false;
+        },
+        Windows: function () {
+            return navigator.userAgent.match(/IEMobile/i) ? true : false;
+        },
+        any: function () {
+            return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+        }
+    };
+    if (isMobile.any()) { //判断是否为android,BlackBerry,ios,windows
+        //要执行的代码
+    } else {
         gridContainerWidth = 422;
         cellSideLength = 40;
         cellSpace = 2;
