@@ -177,8 +177,7 @@ function init(){    //棋盘初始化
     }
 
     touching = false;
-    score = 0;
-    $('#score').text(score);
+    animateNum(score, 0);
 }
 
 function generateBlock(){   //生成拖拽方块
