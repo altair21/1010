@@ -169,6 +169,8 @@ function newgame(){
     init();
     //产生三个随机方块
     generateBlock();
+    // 重置score
+    score = 0;
 }
 
 function init(){    //棋盘初始化
